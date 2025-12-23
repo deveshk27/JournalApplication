@@ -5,9 +5,7 @@ import com.dkdev.Journal.Application.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.ResourceBundle;
@@ -26,5 +24,10 @@ public class AdminController {
             return new ResponseEntity<>(all,HttpStatus.OK) ;
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND) ;
+    }
+
+    @PostMapping("/create-admin-user")
+    public void createAdmin(@RequestBody User user) {
+        userService.saveNewAdmin(user);
     }
 }
