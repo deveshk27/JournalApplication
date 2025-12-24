@@ -1,4 +1,4 @@
-package com.dkdev.Journal.Application.controller;
+ package com.dkdev.Journal.Application.controller;
 
 import com.dkdev.Journal.Application.entity.JournalEntry;
 import com.dkdev.Journal.Application.entity.User;
