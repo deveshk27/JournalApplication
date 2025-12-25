@@ -4,7 +4,10 @@ import com.dkdev.Journal.Application.entity.JournalEntry;
 import com.dkdev.Journal.Application.entity.User;
 import com.dkdev.Journal.Application.repository.JournelEntryRepository;
 import com.dkdev.Journal.Application.repository.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,6 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
+@Slf4j
 public class UserService {
 
     @Autowired
@@ -23,9 +27,15 @@ public class UserService {
     private static final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder() ;
 
     public void saveNewUser(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRoles(Arrays.asList("USER"));
-        userRepository.save(user) ;
+        try {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            user.setRoles(Arrays.asList("USER"));
+            userRepository.save(user) ;
+        }
+         catch(Exception e) {
+          log.error("Username {} already exists" , user.getUsername() , e);
+          return ;
+         }
     }
 
     public void saveNewAdmin(User user) {
