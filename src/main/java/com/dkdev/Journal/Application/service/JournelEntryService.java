@@ -3,6 +3,7 @@ package com.dkdev.Journal.Application.service;
 import com.dkdev.Journal.Application.entity.JournalEntry;
 import com.dkdev.Journal.Application.entity.User;
 import com.dkdev.Journal.Application.repository.JournelEntryRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
+@Slf4j
 public class JournelEntryService {
 
     @Autowired
@@ -31,7 +33,7 @@ public class JournelEntryService {
             user.getJournalEntries().add(saved) ;
             userService.saveUser(user);
         } catch(Exception e) {
-            System.out.println(e) ;
+            log.error("Error" , e);
             throw new RuntimeException("An error occurred while saving the journal." , e) ;
         }
     }
