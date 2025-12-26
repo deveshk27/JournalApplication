@@ -2,6 +2,7 @@ package com.dkdev.Journal.Application.controller;
 
 import com.dkdev.Journal.Application.cache.Appcache;
 import com.dkdev.Journal.Application.entity.User;
+import com.dkdev.Journal.Application.repository.UserRepositoryImpl;
 import com.dkdev.Journal.Application.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,9 @@ public class AdminController {
 
     @Autowired
     private UserService userService ;
+
+    @Autowired
+    private UserRepositoryImpl userRepositoryImpl ;
 
     @Autowired
     private Appcache appcache ;
@@ -38,5 +42,11 @@ public class AdminController {
     @GetMapping("clear-app-cache")
     public void clearAppCache() {
         appcache.init() ;
+    }
+
+    @GetMapping("testing")
+    public List<User> getUserByCriteria() {
+        List<User> users = userRepositoryImpl.getUserForSA() ;
+        return users ;
     }
 }
