@@ -2,14 +2,16 @@ package com.dkdev.Journal.Application.service;
 
 import com.dkdev.Journal.Application.api.response.WeatherResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
-@Component 
+@Component
 public class WeatherService {
-    private static final String apiKey = "f00ed2468f691a95684508aaef540f36" ;
+    @Value("${weather.api.key}")
+    private String apiKey ;
 
     private static final String API = "http://api.weatherstack.com/current?access_key=API_KEY&query=CITY" ;
 
