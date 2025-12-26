@@ -4,6 +4,7 @@ import com.dkdev.Journal.Application.cache.Appcache;
 import com.dkdev.Journal.Application.entity.MailEntity;
 import com.dkdev.Journal.Application.entity.User;
 import com.dkdev.Journal.Application.repository.UserRepositoryImpl;
+import com.dkdev.Journal.Application.scheduler.UserScheduler;
 import com.dkdev.Journal.Application.service.EmailService;
 import com.dkdev.Journal.Application.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,9 +29,7 @@ public class AdminController {
     private Appcache appcache ;
 
     @Autowired
-    private MailEntity mailEntity ;
-    @Autowired
-    private EmailService emailService ;
+    private UserScheduler userScheduler ;
 
     @GetMapping("/all-users")
     public ResponseEntity<?> getAllUsers() {
@@ -51,8 +50,8 @@ public class AdminController {
         appcache.init() ;
     }
 
-    @PostMapping("testing")
-    public void sendEmailtoUser(@RequestBody MailEntity newMail) {
-        emailService.sendEmail(newMail.getTo(), newMail.getSubject() , newMail.getBody());
+    @GetMapping("send-email")
+    public void sendEmailtoUser() {
+        userScheduler.fetchUserAndSendEmail();
     }
 }
