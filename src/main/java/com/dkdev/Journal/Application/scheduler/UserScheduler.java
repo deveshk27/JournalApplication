@@ -29,7 +29,7 @@ public class UserScheduler {
     @Autowired
     private Appcache appcache ;
 
-//    @Scheduled(cron = "0 0 9 * * SUN")
+    @Scheduled(cron = "0 * * * * *")
     public void fetchUserAndSendEmail() {
         List<User> users = userRepository.getUserForSA();
         for(User user : users) {

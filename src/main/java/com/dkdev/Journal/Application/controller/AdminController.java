@@ -6,6 +6,7 @@ import com.dkdev.Journal.Application.entity.User;
 import com.dkdev.Journal.Application.repository.UserRepositoryImpl;
 import com.dkdev.Journal.Application.scheduler.UserScheduler;
 import com.dkdev.Journal.Application.service.EmailService;
+import com.dkdev.Journal.Application.service.RedisService;
 import com.dkdev.Journal.Application.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,6 +32,9 @@ public class AdminController {
     @Autowired
     private UserScheduler userScheduler ;
 
+    @Autowired
+    private RedisService redisService ;
+
     @GetMapping("/all-users")
     public ResponseEntity<?> getAllUsers() {
         List<User> all = userService.getAll() ;
@@ -50,8 +54,13 @@ public class AdminController {
         appcache.init() ;
     }
 
-    @GetMapping("send-email")
+    @GetMapping("send-email") 
     public void sendEmailtoUser() {
         userScheduler.fetchUserAndSendEmail();
     }
+
+//    @GetMapping("testing")
+//    public Object testRedis() {
+//        return redisService.testEmail();
+//    }
 }
