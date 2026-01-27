@@ -60,7 +60,6 @@ public class UserScheduler {
                 }catch (Exception e){
                     emailService.sendEmail(sentimentData.getEmail(), "Sentiment for previous week", sentimentData.getSentiment());
                 }
-//              emailService.sendEmail(user.getEmail(), "Sentiment for last 7 days" , mostFrequentSentiment.toString());
             }
         }
     }
