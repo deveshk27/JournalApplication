@@ -4,6 +4,8 @@ import com.dkdev.Journal.Application.entity.JournalEntry;
 import com.dkdev.Journal.Application.entity.User;
 import com.dkdev.Journal.Application.service.JournelEntryService;
 import com.dkdev.Journal.Application.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,6 +22,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/journal")
+@Tag(name = "Journal APIs")
 public class JournalEntryControllerV2 {
 
     @Autowired
@@ -29,6 +32,7 @@ public class JournalEntryControllerV2 {
     private UserService userService ;
 
     @GetMapping
+    @Operation(summary = "Get all the journal entries of the user")
     public ResponseEntity<?> getAll() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName() ;
@@ -41,6 +45,7 @@ public class JournalEntryControllerV2 {
     }
 
     @PostMapping
+    @Operation(summary = "Create a new journal Entry")
     public ResponseEntity<JournalEntry> createEntry(@RequestBody JournalEntry myEntry) {
        try {
            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -53,6 +58,7 @@ public class JournalEntryControllerV2 {
     }
 
     @GetMapping("id/{myId}")
+    @Operation(summary = "Get a Journal Entry by Id")
     public ResponseEntity<JournalEntry> getEntryById(@PathVariable ObjectId myId) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName() ;
@@ -68,6 +74,7 @@ public class JournalEntryControllerV2 {
     }
 
     @DeleteMapping("id/{myId}")
+    @Operation(summary = "Delete a Journal Entry by Id")
     public ResponseEntity<?> deleteJournalById(@PathVariable ObjectId myId) {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             String username = authentication.getName() ;
@@ -81,6 +88,7 @@ public class JournalEntryControllerV2 {
     }
 
     @PutMapping("id/{myId}")
+    @Operation(summary = "Update a Journal Entry by Id")
     public ResponseEntity<?> putJournalEntryById(@PathVariable ObjectId myId , @RequestBody JournalEntry newEntry) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName() ;

@@ -8,6 +8,8 @@ import com.dkdev.Journal.Application.scheduler.UserScheduler;
 import com.dkdev.Journal.Application.service.EmailService;
 import com.dkdev.Journal.Application.service.RedisService;
 import com.dkdev.Journal.Application.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +20,7 @@ import java.util.ResourceBundle;
 
 @RestController
 @RequestMapping("/admin")
+@Tag(name = "Admin APIs")
 public class AdminController {
 
     @Autowired
@@ -36,6 +39,7 @@ public class AdminController {
     private RedisService redisService ;
 
     @GetMapping("/all-users")
+    @Operation(summary = "Get a list of all the users of the Journal App")
     public ResponseEntity<?> getAllUsers() {
         List<User> all = userService.getAll() ;
         if(all != null & !all.isEmpty()) {
@@ -45,16 +49,19 @@ public class AdminController {
     }
 
     @PostMapping("/create-admin-user")
+    @Operation(summary = "Create a new admin User")
     public void createAdmin(@RequestBody User user) {
         userService.saveNewAdmin(user);
     }
 
     @GetMapping("clear-app-cache")
+    @Operation(summary = "Clear all the app cache")
     public void clearAppCache() {
         appcache.init() ;
     }
 
-    @GetMapping("send-email") 
+    @GetMapping("send-email")
+    @Operation(summary = "Send an email of Sentiment Analysis to all the users who have added journal in the last 7 days")
     public void sendEmailtoUser() {
         userScheduler.fetchUserAndSendEmail();
     }

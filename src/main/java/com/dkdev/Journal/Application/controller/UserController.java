@@ -7,6 +7,9 @@ import com.dkdev.Journal.Application.repository.UserRepository;
 import com.dkdev.Journal.Application.service.QuotesService;
 import com.dkdev.Journal.Application.service.UserService;
 import com.dkdev.Journal.Application.service.WeatherService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jdk.jshell.execution.JdiExecutionControl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +21,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/user")
+@Tag(name = "User APIs" , description = "Read, Update and Delete User")
 public class UserController {
 
     @Autowired
@@ -33,11 +37,13 @@ public class UserController {
     private QuotesService quotesService ;
 
     @GetMapping
+    @Operation(summary = "Get a list of all the users ")
     public List<User> getAll() {
         return userService.getAll() ;
     }
 
     @PutMapping
+    @Operation(summary = "Update the details of a user")
     public ResponseEntity<?> updateUser(@RequestBody User newUser) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName() ;
@@ -49,6 +55,7 @@ public class UserController {
     }
 
     @DeleteMapping
+    @Operation(summary = "Delete a User")
     public ResponseEntity<?> deleteUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName() ;
@@ -57,6 +64,7 @@ public class UserController {
     }
 
     @GetMapping("/about")
+    @Operation(summary = "Get the greeting for a user")
     public ResponseEntity<?> greeting() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName() ;

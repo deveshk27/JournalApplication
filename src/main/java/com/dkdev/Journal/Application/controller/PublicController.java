@@ -1,9 +1,12 @@
 package com.dkdev.Journal.Application.controller;
 
+import com.dkdev.Journal.Application.dto.UserDTO;
 import com.dkdev.Journal.Application.entity.User;
 import com.dkdev.Journal.Application.service.UserDetailsServiceImpl;
 import com.dkdev.Journal.Application.service.UserService;
 import com.dkdev.Journal.Application.utils.JwtUtil;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,12 +14,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/public")
 @Slf4j
+@Tag(name = "Public APIs")
 public class PublicController {
 
     @Autowired
@@ -32,17 +35,24 @@ public class PublicController {
     private JwtUtil jwtUtil ;
 
     @GetMapping("/health-check")
+    @Operation(summary = "Get a health-check of the application")
     public String healthcheck() {
         return "OK" ;
     }
 
     @PostMapping("/signup")
-    public User signup(@RequestBody User newUser) {
+    @Operation(summary = "Signup route for a user")
+    public void signup(@RequestBody UserDTO user) {
+        User newUser = new User() ;
+        newUser.setEmail(user.getEmail()) ;
+        newUser.setUsername(user.getUsername());
+        newUser.setPassword(user.getPassword());
+        newUser.setSentimentAnalysis(user.isSentimentAnalysis());
         userService.saveNewUser(newUser) ;
-        return newUser ;
     }
 
     @PostMapping("/login")
+    @Operation(summary = "Login route for a user")
     public ResponseEntity<String> login (@RequestBody User newUser) {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(newUser.getUsername() , newUser.getPassword())) ;
