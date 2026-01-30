@@ -1,5 +1,5 @@
 
-# Journal Application
+# Sentinel
 
 A sophisticated backend system built with Spring Boot 4.0 that provides a secure, automated environment for personal journaling. Beyond standard CRUD operations, this application features a distributed architecture using Kafka for messaging and Redis for caching, alongside automated sentiment analysis and third-party API integrations.
 
